@@ -7,7 +7,7 @@ file="D:\SentimentAnalysis\Covid_data\covid-data.xlsx"
 dfs=pd.read_excel(file)
 print(dfs)
 sid=SentimentIntensityAnalyzer()
-for index,data in dfs.iterrows():
+for index,data in dfs.iterrows()
     data=data[0].split('.  ')
     for sa in data:
         sa=sid.polarity_scores(str(data))
