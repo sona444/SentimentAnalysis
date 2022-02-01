@@ -1,2 +1,2 @@
 # SentimentAnalysis
-- A Sentiment Analyser flask App
+- A Sentiment Analyser Python-flask App
