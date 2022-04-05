@@ -15,6 +15,7 @@ def index():
 @app.route('/check-sentiment')
 def check():
     statement=request.form.get('statement')
+    print(statement)
     sid=SentimentIntensityAnalyzer()
     sa=sid.polarity_scores(str(statement))
     for k in sa:
