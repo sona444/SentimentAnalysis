@@ -21,7 +21,7 @@ plt.ylabel("Y-axis data")
 plt.title('multiple plots')
 plt.show()
 
-nltk.downloader.download('vader_lexicon')
+nltk.download('vader_lexicon')
 file="D:\SentimentAnalysis\Covid_data\covid-data.xlsx"
 
 dfs=pd.read_excel(file)

@@ -1,0 +1,57 @@
+{% extends "layout/base.html" %}
+
+{% block title %}Sentiment Analyser App{% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block body_class %} landing-page {% endblock body_class %}
+
+{% block content %}
+
+<main>
+<section class="register-form">
+    <div class="container form">
+    <div class="row reg-form">
+    <h1 style=" text-align:center;font-weight:800;">Automatic Sentiment Analyser</h1>
+
+        <form id="sentiment-form"  class="was-validated" style="margin-bottom:45px;">
+            
+            <div class="mb-3">
+                <label for="Name" class="form-label">Enter a statement</label>
+                <input type="text" class="form-control" id="statement" required />
+                <div class="valid-feedback"></div>
+                <div class="invalid-feedback"></div>
+            </div>
+            <span style="width:100%;"><button type="submit" class="btn" id="btn-send">Submit</button></span>
+          </form>
+		  <div></div>
+    </div>
+  </div>
+</section>
+</main>
+<script>
+$(document).on('click', '#btn-send', function(e){
+    e.preventDefault();
+    var form = $('#sentiment-form');
+    let statement = $('#statement').val();
+    jsondata={
+      "statement":statement,
+    }
+    $("#btn-send").prop("disabled", true);
+    $.ajax({
+      type: "get",
+      data: jsondata,
+      url:"/check-sentiment",
+      dataType: "json",
+        complete: function(resp){
+          $("#btn-send").prop("disabled", false); 
+          alert(resp.responseText);
+		  console.log(resp.responseText);
+          }
+          // enabled the submit button
+        
+      });
+});
+</script>
+{% endblock content %}
