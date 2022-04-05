@@ -13,45 +13,67 @@
 <section class="register-form">
     <div class="container form">
     <div class="row reg-form">
-    <h1 style=" text-align:center;font-weight:800;">Automatic Sentiment Analyser</h1>
 
-        <form id="sentiment-form"  class="was-validated" style="margin-bottom:45px;">
+        <form id="sentiment-form"  class="was-validated" style="margin-bottom:45px;" >
             
             <div class="mb-3">
                 <label for="Name" class="form-label">Enter a statement</label>
-                <input type="text" class="form-control" id="statement" required />
+                <input type="text" class="form-control" id="statement" name="statement" required />
                 <div class="valid-feedback"></div>
                 <div class="invalid-feedback"></div>
+                <input type="submit" id="upload" value="Check now"> 
             </div>
-            <span style="width:100%;"><button type="submit" class="btn" id="btn-send">Submit</button></span>
-          </form>
+
+        </form>
 		  <div></div>
+      <div id="myChart" style="width:100%; height:500px;">
+    </div>
     </div>
   </div>
 </section>
 </main>
 <script>
-$(document).on('click', '#btn-send', function(e){
+$(document).on('submit', '#sentiment-form', function(e){
     e.preventDefault();
     var form = $('#sentiment-form');
     let statement = $('#statement').val();
+    console.log(statement);
     jsondata={
       "statement":statement,
     }
     $("#btn-send").prop("disabled", true);
     $.ajax({
-      type: "get",
+      type: "POST",
       data: jsondata,
       url:"/check-sentiment",
       dataType: "json",
         complete: function(resp){
+          const myObj = JSON.parse(resp.responseText);
           $("#btn-send").prop("disabled", false); 
-          alert(resp.responseText);
+          google.charts.load('current', {'packages':['corechart']});
+          google.charts.setOnLoadCallback(drawChart);
+
+          function drawChart() {
+          var data = google.visualization.arrayToDataTable([
+            ['Sentiment', 'Percentage'],
+            ['Positive',myObj.pos],
+            ['Negative',myObj.neg],
+            ['Neutral',myObj.neu]
+          ]);
+
+          var options = {
+            title:'Sentiments of statement "' + statement + '"',
+            is3D:true
+          };
+
+          var chart = new google.visualization.PieChart(document.getElementById('myChart'));
+            chart.draw(data, options);
+          }
 		  console.log(resp.responseText);
           }
           // enabled the submit button
         
       });
 });
-</script>
+</script>-->
 {% endblock content %}

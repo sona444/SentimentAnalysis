@@ -1,3 +1,4 @@
+from crypt import methods
 from flask import Flask, render_template,request
 import pandas as pd
 import nltk
@@ -12,7 +13,7 @@ nltk.download('vader_lexicon')
 def index():
     return render_template('index.html')
 
-@app.route('/check-sentiment')
+@app.route('/check-sentiment', methods=['GET','POST'])
 def check():
     statement=request.form.get('statement')
     print(statement)
